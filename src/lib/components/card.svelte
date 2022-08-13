@@ -18,7 +18,8 @@
 	export let gallery = false;
 	export let showcase = false;
 
-	const base = "https://images.pokemontcg.io/"
+	// const base = "https://images.pokemontcg.io/"
+	const base = "http://localhost:3000/"
 
 	let thisCard;
 	let rotator;
@@ -295,6 +296,24 @@
 	data-gallery="{gallery}" 
 	style={styles} 
 	bind:this={thisCard}>
+
+	<!-- {
+		"id": "pgo-43",
+		"name": "Tyranitar",
+		"supertype": "Pokémon",
+		"subtypes": ["Stage 2"],
+		"number": "43",
+		"rarity": "Rare Holo",
+		"images": {
+		"small": "https://images.pokemontcg.io/pgo/43.png",
+		"large": "https://images.pokemontcg.io/pgo/43_hires.png"
+	} -->
+
+	<p style="font-size: small; font-weight: bold;">
+		supertype: {supertype}<br />
+		subtypes: {subtypes}<br />
+		rarity: {rarity}<br />
+	</p>
 
 	<div class="card__translater">
 		<div

@@ -7,8 +7,8 @@
     "number": "1",
     "rarity": "Common",
     "images": {
-      "small": "./jonty-001_soccer_are-you-not-entertained.jpeg",
-      "large": "./jonty-001_soccer_are-you-not-entertained.jpeg"
+      "small": "https://images.pokemontcg.io/sm35/1.png",
+      "large": "https://images.pokemontcg.io/sm35/1_hires.png"
     }
   },
   {
