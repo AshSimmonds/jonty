@@ -27,7 +27,7 @@
 		// @ts-ignore
 		window.cards = cards;
 
-		jontyCards = [cards[0], cards[6], cards[12], cards[15], cards[60], cards[18], cards[21], cards[27], cards[24], cards[36], cards[39], cards[42], cards[48], cards[51], cards[63]];
+		jontyCards = [cards[6], cards[12], cards[15], cards[60], cards[21], cards[24], cards[36], cards[42], cards[48], cards[51], cards[63]];
 
 		basics = cards.slice(0, 1);
 		holos = cards.slice(6, 7);
