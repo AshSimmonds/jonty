@@ -50,7 +50,6 @@
 </script>
 
 <main>
-	<h1>Jonty<sup>verse</sup> Trading Simulator</h1>
 	<header>
 		<div class="showcase">
 			{#await getCards()}
@@ -58,6 +57,7 @@
 			{:then cards}
 				<Card
 					img={cards[0].images.large}
+					name={cards[0].name}
 					number={cards[18].number}
 					supertype={cards[18].supertype}
 					subtypes={cards[18].subtypes}
@@ -68,6 +68,9 @@
 		</div>
 	</header>
 
+	<h1>Jonty<sup>verse</sup> Trading Simulator</h1>
+
+
 	<CardList>
 		{#await getCards()}
 			loading...
@@ -75,6 +78,7 @@
 			{#each jontyCards as card, id}
 				<Card
 					img={card.images.large}
+					name={card.name}
 					number={card.number}
 					supertype={card.supertype}
 					subtypes={card.subtypes}

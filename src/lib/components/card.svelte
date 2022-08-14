@@ -1,25 +1,26 @@
 <script>
-	import { spring } from "svelte/motion";
-	import { onMount } from "svelte";
-	import { activeCard } from "$lib/stores/activeCard.js";
-	import { orientation, resetBaseOrientation } from "$lib/stores/orientation.js";
-	import { clamp, round } from "$lib/helpers/Math.js";
+	import { spring } from 'svelte/motion';
+	import { onMount } from 'svelte';
+	import { activeCard } from '$lib/stores/activeCard.js';
+	import { orientation, resetBaseOrientation } from '$lib/stores/orientation.js';
+	import { clamp, round } from '$lib/helpers/Math.js';
 
-	import Glare from "$lib/components/card-glare.svelte";
-	import Shine from "$lib/components/card-shine.svelte";
+	import Glare from '$lib/components/card-glare.svelte';
+	import Shine from '$lib/components/card-shine.svelte';
 
-	export let cardBack = "https://tcg.pokemon.com/assets/img/global/tcg-card-back-2x.jpg";
+	export let cardBack = 'https://tcg.pokemon.com/assets/img/global/tcg-card-back-2x.jpg';
 	export let img = cardBack;
 
 	export let number = cardBack;
-	export let subtypes = "basic";
-	export let supertype = "pokémon";
-	export let rarity = "common";
+	export let name = 'name';
+	export let subtypes = 'basic';
+	export let supertype = 'pokémon';
+	export let rarity = 'common';
 	export let gallery = false;
 	export let showcase = false;
 
 	// const base = "https://images.pokemontcg.io/"
-	const base = "/"
+	const base = '/';
 
 	let thisCard;
 	let rotator;
@@ -37,14 +38,13 @@
 	let springRotateDelta = spring({ x: 0, y: 0 }, springD);
 	let springTranslate = spring({ x: 0, y: 0 }, springD);
 	let springScale = spring(1, springD);
-	
+
 	const interact = (e) => {
-		
-		if ( $activeCard && $activeCard !== thisCard ) return;
+		if ($activeCard && $activeCard !== thisCard) return;
 
 		interacting = true;
 
-		if ( e.type === "touchmove" ) {
+		if (e.type === 'touchmove') {
 			e.clientX = e.touches[0].clientX;
 			e.clientY = e.touches[0].clientY;
 		}
@@ -99,11 +99,11 @@
 	const touchEnd = (e, delay) => {
 		deactivate();
 		interactEnd(e, delay);
-	}
+	};
 
 	const activate = (e) => {
-		const isTouch = e.pointerType === "touch";
-		if ( !isTouch && $activeCard && $activeCard === thisCard ) {
+		const isTouch = e.pointerType === 'touch';
+		if (!isTouch && $activeCard && $activeCard === thisCard) {
 			// deactive if already active
 			$activeCard = undefined;
 		} else {
@@ -115,16 +115,16 @@
 	const deactivate = (e) => {
 		interactEnd();
 		$activeCard = undefined;
-	}
+	};
 
 	const reposition = (e) => {
 		clearTimeout(debounce);
 		debounce = setTimeout(() => {
-			if ( $activeCard && $activeCard === thisCard ) {
+			if ($activeCard && $activeCard === thisCard) {
 				setCenter();
 			}
-		}, 300 );
-	}
+		}, 300);
+	};
 
 	const setCenter = () => {
 		const rect = thisCard.getBoundingClientRect(); // get element's size/position
@@ -143,11 +143,11 @@
 	const popover = () => {
 		const rect = thisCard.getBoundingClientRect(); // get element's size/position
 		let delay = 100;
-		let scaleW = ( window.innerWidth / rect.width ) * 0.9;
-		let scaleH = ( window.innerHeight / rect.height ) * 0.9;
+		let scaleW = (window.innerWidth / rect.width) * 0.9;
+		let scaleH = (window.innerHeight / rect.height) * 0.9;
 		let scaleF = 1.75;
 		setCenter();
-		if ( firstPop ) {
+		if (firstPop) {
 			delay = 1000;
 			springRotateDelta.set({
 				x: 360,
@@ -155,7 +155,7 @@
 			});
 		}
 		firstPop = false;
-		springScale.set(Math.min(scaleW,scaleH,scaleF));
+		springScale.set(Math.min(scaleW, scaleH, scaleF));
 		interactEnd(null, delay);
 	};
 
@@ -180,7 +180,7 @@
 			retreat();
 			active = false;
 		}
-	};
+	}
 
 	$: styles = `
 		--mx: ${$springGlare.x}%;
@@ -194,36 +194,42 @@
 		--pos: ${$springBackground.x}% ${$springBackground.y}%;
 		--posx: ${$springBackground.x}%;
 		--posy: ${$springBackground.y}%;
-		--hyp: ${ Math.sqrt( ($springGlare.y-50) * ($springGlare.y-50) +  ($springGlare.x-50) * ($springGlare.x-50) ) / 50};
+		--hyp: ${
+			Math.sqrt(
+				($springGlare.y - 50) * ($springGlare.y - 50) +
+					($springGlare.x - 50) * ($springGlare.x - 50)
+			) / 50
+		};
 	`;
 
 	$: {
-
 		rarity = rarity.toLowerCase();
 		supertype = supertype.toLowerCase();
 		number = number.toLowerCase();
-		gallery = number.startsWith( "tg" );
-		if ( Array.isArray( subtypes ) ) {
-			subtypes = subtypes.join( " " ).toLowerCase();
+		gallery = number.startsWith('tg');
+		if (Array.isArray(subtypes)) {
+			subtypes = subtypes.join(' ').toLowerCase();
 		}
 	}
 
 	const imageLoader = (e) => {
 		loading = false;
-	}
+	};
 
 	const orientate = (e) => {
-
 		const x = e.relative.gamma;
 		const y = e.relative.beta;
 
 		const max = { x: 16, y: 18 };
-		const degrees = { x: clamp( x, -max.x, max.x ), y: clamp( y, -max.y, max.y ) };
-		const percent = { x: 50 + (degrees.x / (max.x*2) * 100), y: 50 + (degrees.y / (max.y*2) * 100) };
+		const degrees = { x: clamp(x, -max.x, max.x), y: clamp(y, -max.y, max.y) };
+		const percent = {
+			x: 50 + (degrees.x / (max.x * 2)) * 100,
+			y: 50 + (degrees.y / (max.y * 2)) * 100
+		};
 
 		springBackground.set({
-			x: round(50 + ((max.x*2) * ((50 - -percent.x) / 100)-max.x*2)),
-			y: round(50 + ((max.y*2) * ((50 + percent.y) / 100)- max.y*2))
+			x: round(50 + (max.x * 2 * ((50 - -percent.x) / 100) - max.x * 2)),
+			y: round(50 + (max.y * 2 * ((50 + percent.y) / 100) - max.y * 2))
 		});
 		springRotate.stiffness = springR.stiffness;
 		springRotate.damping = springR.damping;
@@ -238,40 +244,38 @@
 			y: round(percent.y),
 			o: 1
 		});
-		
-	}
+	};
 
 	$: {
-		if ( $activeCard && $activeCard === thisCard ) {
+		if ($activeCard && $activeCard === thisCard) {
 			interacting = true;
-			orientate( $orientation );
+			orientate($orientation);
 		}
 	}
 
-
 	onMount(() => {
-		if( showcase ) {
+		if (showcase) {
 			let showTimer;
 			const s = 0.02;
 			const d = 0.5;
-			setTimeout(() =>{
+			setTimeout(() => {
 				interacting = true;
 				active = true;
 				springRotate.stiffness = s;
 				springRotate.damping = d;
-				springGlare.stiffness = s; 
+				springGlare.stiffness = s;
 				springGlare.damping = d;
 				springBackground.stiffness = s;
 				springBackground.damping = d;
-				
+
 				springRotate.set({ x: -15, y: 10 });
 				springGlare.set({ x: 90, y: 0, o: 1 });
 				springBackground.set({ x: 90, y: 0 });
-				setTimeout(() =>{
+				setTimeout(() => {
 					springRotate.set({ x: 15, y: 10 });
 					springGlare.set({ x: 10, y: 0, o: 1 });
 					springBackground.set({ x: 10, y: 0 });
-					setTimeout(() =>{
+					setTimeout(() => {
 						interactEnd(0);
 					}, 3000);
 				}, 3000);
@@ -279,24 +283,23 @@
 			}, 2000);
 		}
 	});
-	
 </script>
 
-<svelte:window on:scroll="{reposition}" />
+<svelte:window on:scroll={reposition} />
 
-<div 
+<div
 	class="card"
-	class:active 
-	class:interacting 
+	class:active
+	class:interacting
 	class:loading
-	data-number="{number}"
-	data-subtypes="{subtypes}"
-	data-supertype="{supertype}"
-	data-rarity="{rarity}" 
-	data-gallery="{gallery}" 
-	style={styles} 
-	bind:this={thisCard}>
-
+	data-number={number}
+	data-subtypes={subtypes}
+	data-supertype={supertype}
+	data-rarity={rarity}
+	data-gallery={gallery}
+	style={styles}
+	bind:this={thisCard}
+>
 	<!-- {
 		"id": "pgo-43",
 		"name": "Tyranitar",
@@ -310,9 +313,7 @@
 	} -->
 
 	<p style="font-size: small; font-weight: bold;">
-		supertype: {supertype}<br />
-		subtypes: {subtypes}<br />
-		rarity: {rarity}<br />
+		{subtypes}
 	</p>
 
 	<div class="card__translater">
@@ -323,15 +324,28 @@
 			on:pointermove={interact}
 			on:mouseout={interactEnd}
 			on:blur={deactivate}
-			tabindex=0
+			tabindex="0"
 		>
-			<img class="card__back" src="{cardBack}" alt="" />
+			<img class="card__back" src={cardBack} alt="" />
 			<div class="card__front">
-				<img src="{img.startsWith('http') ? '' : base}{img}" alt="" on:load="{imageLoader}" loading="lazy" />
+				<img
+					src="{img.startsWith('http') ? '' : base}{img}"
+					alt=""
+					on:load={imageLoader}
+					loading="lazy"
+				/>
 				<Shine {subtypes} {supertype} />
 				<Glare {subtypes} />
+
+				<p style="font-size: small; font-weight: bold;">
+					{rarity}
+				</p>
 			</div>
 		</div>
+
+		<p style="font-size: small; font-weight: bold;">
+			{name}
+		</p>
 	</div>
 </div>
 
@@ -353,14 +367,14 @@
 
 	.card {
 		--radius: 4.55% / 3.5%;
-		z-index: calc( var(--s) * 100 );
-		transform: translate3d(0,0,0.1px);
+		z-index: calc(var(--s) * 100);
+		transform: translate3d(0, 0, 0.1px);
 		will-change: transform, visibility;
 		transform-style: preserve-3d;
 	}
 
 	.card.interacting {
-		z-index: calc( var(--s) * 120 );
+		z-index: calc(var(--s) * 120);
 	}
 
 	.card.active .card__translater,
@@ -425,7 +439,7 @@
 
 	.card__front {
 		opacity: 1;
-		transition: opacity .2s ease-out;
+		transition: opacity 0.2s ease-out;
 	}
 
 	.loading .card__front {
@@ -435,6 +449,4 @@
 	.loading .card__back {
 		transform: rotateY(0deg);
 	}
-
-
 </style>
