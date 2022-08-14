@@ -58,10 +58,10 @@
 				<Card
 					img={cards[0].images.large}
 					name={cards[0].name}
-					number={cards[18].number}
-					supertype={cards[18].supertype}
-					subtypes={cards[18].subtypes}
-					rarity={cards[18].rarity}
+					number={cards[0].number}
+					supertype={cards[0].supertype}
+					subtypes={cards[0].subtypes}
+					rarity={cards[0].rarity}
 					showcase={true}
 				/>
 			{/await}

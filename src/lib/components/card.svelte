@@ -8,7 +8,7 @@
 	import Glare from '$lib/components/card-glare.svelte';
 	import Shine from '$lib/components/card-shine.svelte';
 
-	export let cardBack = 'https://tcg.pokemon.com/assets/img/global/tcg-card-back-2x.jpg';
+	export let cardBack = './jonty-001_soccer_are-you-not-entertained.jpeg';
 	export let img = cardBack;
 
 	export let number = cardBack;
