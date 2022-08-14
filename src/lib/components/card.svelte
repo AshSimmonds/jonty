@@ -19,7 +19,7 @@
 	export let showcase = false;
 
 	// const base = "https://images.pokemontcg.io/"
-	const base = "http://localhost:3000/"
+	const base = "/"
 
 	let thisCard;
 	let rotator;
