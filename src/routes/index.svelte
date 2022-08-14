@@ -24,6 +24,7 @@
 
 		let cardFetch = await fetch('/data.json');
 		let cards = await cardFetch.json();
+		// @ts-ignore
 		window.cards = cards;
 
 		jontyCards = [cards[0], cards[6], cards[12], cards[15], cards[60], cards[18], cards[21], cards[27], cards[24], cards[36], cards[39], cards[42], cards[48], cards[51], cards[63]];
@@ -49,7 +50,7 @@
 </script>
 
 <main>
-	<h1>Welcome to Jonty<sup>verse</sup> Trading Simulator</h1>
+	<h1>Jonty<sup>verse</sup> Trading Simulator</h1>
 	<header>
 		<div class="showcase">
 			{#await getCards()}
@@ -57,17 +58,15 @@
 			{:then cards}
 				<Card
 					img={cards[0].images.large}
-					number={cards[0].number}
-					supertype={cards[0].supertype}
-					subtypes={cards[0].subtypes}
-					rarity={cards[0].rarity}
+					number={cards[18].number}
+					supertype={cards[18].supertype}
+					subtypes={cards[18].subtypes}
+					rarity={cards[18].rarity}
 					showcase={true}
 				/>
 			{/await}
 		</div>
 	</header>
-
-	<h2>Welcome to Jonty<sup>verse</sup> Trading Simulator</h2>
 
 	<CardList>
 		{#await getCards()}
